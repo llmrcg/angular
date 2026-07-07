@@ -1,0 +1,40 @@
+import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { delay } from 'rxjs/operators';
+import { Item } from '../models/item.model';
+
+/**
+ * ItemService
+ *
+ * Simulates a data source for Item objects. In a real application this
+ * service would use HttpClient to call a backend REST API; here it
+ * returns mock data (with a simulated network delay) via getItems().
+ */
+@Injectable({
+  providedIn: 'root'
+})
+export class ItemService {
+
+  /** Toggle this to true locally to simulate a failed request. */
+  private simulateError = false;
+
+  private mockItems: Item[] = [
+    { id: 1, name: 'Laptop', description: 'A portable computer suitable for work and travel.' },
+    { id: 2, name: 'Wireless Mouse', description: 'An ergonomic mouse with Bluetooth connectivity.' },
+    { id: 3, name: 'Mechanical Keyboard', description: 'A tactile keyboard with customizable keycaps.' },
+    { id: 4, name: 'Monitor Stand', description: 'An adjustable stand to raise monitor height.' },
+    { id: 5, name: 'USB-C Hub', description: 'A multiport adapter for connecting peripherals.' }
+  ];
+
+  /**
+   * Returns an Observable emitting the list of items.
+   * A short delay simulates network latency; the service can also be
+   * configured to emit an error to simulate a failed request.
+   */
+  getItems(): Observable<Item[]> {
+    if (this.simulateError) {
+      return throwError(() => new Error('Failed to fetch items from the server.')).pipe(delay(500));
+    }
+    return of(this.mockItems).pipe(delay(500));
+  }
+}
