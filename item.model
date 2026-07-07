@@ -1,0 +1,8 @@
+/**
+ * Represents a single item returned by the ItemService.
+ */
+export interface Item {
+  id: number;
+  name: string;
+  description: string;
+}
