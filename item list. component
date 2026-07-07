@@ -1,0 +1,25 @@
+<section class="item-list">
+  <h2>Items</h2>
+
+  <!-- Loading state -->
+  <p *ngIf="isLoading" class="status status--loading">Loading items...</p>
+
+  <!-- Error state -->
+  <div *ngIf="errorMessage && !isLoading" class="status status--error">
+    <p>{{ errorMessage }}</p>
+    <button type="button" (click)="loadItems()">Retry</button>
+  </div>
+
+  <!-- Empty state -->
+  <p *ngIf="!isLoading && !errorMessage && items.length === 0" class="status status--empty">
+    No items found.
+  </p>
+
+  <!-- Loaded items -->
+  <ul *ngIf="!isLoading && !errorMessage && items.length > 0" class="item-list__grid">
+    <li *ngFor="let item of items; trackBy: trackByItemId" class="item-card">
+      <h3 class="item-card__name">{{ item.name }}</h3>
+      <p class="item-card__description">{{ item.description }}</p>
+    </li>
+  </ul>
+</section>
